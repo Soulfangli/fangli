@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/enter.css">
+</head>
+<body>
+    <div class="top">
+        <a><img src="/template/images/d1.png" alt=""></a> 用户注册 
+    </div>
+
+    <div class="enter">
+        <div class="center">
+        <div class="left">
+            <img src="http://img.yimianmian.com/data/afficheimg/1467784333917956858.jpg" alt="">
+        </div>
+        <div class="right">
+            <div class="e-r">
+                
+                    <div class="zuc"><img src="/template/images/d2.png" alt=""><a href="/template/登入页面.html">直接登入</a> </div>
+                
+                    <div class="yhm">
+                        <div class="yhm1"><img src="/template/images/d3.png" alt=""> 
+                        <input type="text" id="user" class="input1" value="输入登入用户名"><br></div>
+                    </div>     
+                    <div class="mm">
+                        <div class="mm1"><img src="/template/images/d4.png" alt="">
+                        <input type="text" id="pass" class="input2" value="密码" ><br></div>
+                    </div>  
+
+                    <input type="button" value="登录" id="btn" class="btn1">
+
+                    <span id="msg"></span>
+                
+            </div>
+    
+        </div>
+        </div>
+    </div>
+
+
+
+    <div class="foot"> Copyright 2008 - 2012 香港意绵绵国际珠宝有限公司 版权所有 厦门帝欣网络科技有限公司 技术支持<br>
+        客服热线：0592-7188888 订购热线：4000-998-688 （周一至周日：9：00-22 ：00） </div>
+
+</body>
+<script src="/template/libs/ajax.3.0.js"></script>
+<script>
+    // 点击事件
+    // 获取输入框的信息
+    // 发送请求
+    // 接收结果
+    // 根据结果做出提示
+
+    function Register(options){
+        this.btn = options.btn
+        this.user = options.user
+        this.pass = options.pass
+        this.msg = options.msg
+        this.url = options.url
+
+        this.init()
+    }
+    Register.prototype.init = function(){
+        var that = this;
+        this.btn.onclick = function(){
+            that.load()
+        }
+    }
+    Register.prototype.load = function(){
+        var that = this;
+        ajaxPost(this.url,{
+            tel:this.user.value,
+            pass:this.pass.value
+        }).then(function(res){
+            switch(res){
+                case "0":
+                    that.msg.innerHTML = "重名，换一个";break;
+                case "1":
+                    that.msg.innerHTML = "注册成功，3秒之后调转到登录";
+                    setTimeout(() => {
+                        location.href = "登入页面.html";
+                    }, 3000);
+                    break;
+                case "2":
+                    that.msg.innerHTML = "请输入完整信息";break;
+            }
+        },function(code){
+            console.log("前端的ajax请求失败，有可能是网络原因或接口错误，或服务器问题，反正不一定是注册失败")
+        })
+    }
+
+
+
+    new Register({
+        btn:document.getElementById("btn"),
+        user:document.getElementById("user"),
+        pass:document.getElementById("pass"),
+        msg:document.getElementById("msg"),
+        url:"http://www.liyangyf.com/ctrl/register.php"
+    })
+</script>
+</html>
